@@ -1,0 +1,5 @@
+[book]
+authors = ["The embedded WG"]
+multilingual = false
+src = "src"
+title = "New Book"
