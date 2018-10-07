@@ -70,6 +70,12 @@ And as we talked about JTAG and SWD earlier, OpenOCD supports both of these sign
 
 [Segger JLink]: https://www.segger.com/products/debug-probes/j-link/
 
+### [DAPLink]
+
+**I know nothing about JLink, Ryan, please add here :)**
+
+[DAPLink]:https://os.mbed.com/docs/latest/tools/daplink.html
+
 ### [Black Magic Probe]
 
 The BMP (Black Magic Probe) is different from OpenOCD, where it is hardware, commonly the same as a debug adapter, which runs an GDB server over serial inside it, so there is no need to install OpenOCD - in a sense, it is OpenOCD combined with a debug adapter in the same dongle.
