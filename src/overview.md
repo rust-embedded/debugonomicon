@@ -66,15 +66,41 @@ And as we talked about JTAG and SWD earlier, OpenOCD supports both of these sign
 
 ### [Segger JLink]
 
-**I know nothing about JLink, Ryan, please add here :)**
+[Segger JLink]: https://www.segger.com/products/debug-probes/j-link/ 
 
-[Segger JLink]: https://www.segger.com/products/debug-probes/j-link/
+Segger provide a JLink family of programmers and debuggers commonly used in industry. JLink devices require closed source binaries to use, however these are available for common platforms [here](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack). JLink probes are typically compatible with both SWD and JTAG based debugging.
 
-### [DAPLink]
+Flashing is managed using `JLinkExe` and a custom gdb server is provided in `JLinkGdbServer`, the `JLinkExe` commands are documented [here](https://wiki.segger.com/index.php?title=J-Link_Commander), note that on windows this is called `JLink.exe`.
 
-**I know nothing about JLink, Ryan, please add here :)**
+#### Programming
+
+1. Run the `JLinkExe --speed 4000 --if SWD` command to connect to the debugger in SWD mode
+2. Select your device with `device DEVICE` eg. `device EFM32G210`
+3. Halt the processor with `halt` or `h`
+4. Load your binary with `loadbin BINARY, FLASH_ADDRESS` eg. `loadbin test.bin 0x0000`
+5. Verify your binary flashed correctly with `verifybin BINARY, FLASH_ADDRESS` eg. `loadbin test.bin 0x0000`
+6. Reset the processor with `reset` or `r`
+7. Quit the JLinkExe gui with `q`
+
+It is also possible to pass scripts to JLinkExe with the `--CommanderScript` option, allowing automation of commands.
+
+#### Debugging
+
+To debug with the JLink device you run the `JLinkGDBServer` command with the specified device, speed, and interface. For example, `JLinkGDBServer -device DEVICE -speed 4000 -if SWD`. You can then launch a GDB instance with the appropriate command for your target (eg. `arm-none-eabi-gdb BINARY.elf`) and connect to the GDB server using `target remote localhost:2331` (specifying the default JLinkGDBServer port).
+
+### [ARM DAPLink]
+
+DAPLink is a project by ARM to develop an open source cortex debug probe, this provides a set of interfaces to simplify programming and debugging and can be implemented on nearly any USB-capable hardware. DAPLink provides a set of endpoints including a CMSIS-DAP interface for debugging, a USB disk for drag-and-drop programming, and an optional serial port for communication with the target system.
 
 [DAPLink]:https://os.mbed.com/docs/latest/tools/daplink.html
+
+#### Programming
+
+On connecting a DAPLink device to your system, a USB drive should become available. To flash, copy your binary file (*.bin) to the drive and wait for completion.
+
+#### Debugging
+
+TODO: try it out
 
 ### [Black Magic Probe]
 
