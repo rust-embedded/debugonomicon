@@ -106,9 +106,9 @@ When designing a system, we should select the interface which is most convenient
 
 Depending on the debugger you use, you may need to convert your compiled output into a different format. By default the compiler outputs a rich [ELF](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) file containing section information (and debug symbols if you have them turned on), and most tools require a very minimal binary (BIN) or hexidecmal (HEX) file, consisting only of the program instructions either in raw form or encoded in hexidecimal.
 
-[cargo-binutils](https://github.com/rust-embedded/cargo-binutils) provides an `objcopy` command to convert between formats, to create a bin file call `cargo objcopy --bin NAME --release -- -O binary NAME.bin` or a hex file call `cargo objcopy --bin NAME --release -- -O hex NAME.hex` where `NAME` is the name of your project. 
+[cargo-binutils](https://github.com/rust-embedded/cargo-binutils) provides an `objcopy` command to convert between formats, to create a bin file call `cargo objcopy --bin NAME --release -- -O binary NAME.bin` or a hex file call `cargo objcopy --bin NAME --release -- -O ihex NAME.hex` where `NAME` is the name of your project. 
 
-You can also use `arm-none-eabi-objcopy` for the same purpose, with `arm-none-eabi-objcopy -O binary target/.../NAME NAME.bin` to generate binaries and `arm-none-eabi-objcopy -O hex target/.../NAME NAME.hex` to generate hex files. Note that `arm-none-eabi-objcopy` requires the full path to the target file, where `cargo objcopy` can determine the target output directory itself.
+You can also use `arm-none-eabi-objcopy` for the same purpose, with `arm-none-eabi-objcopy -O binary target/.../NAME NAME.bin` to generate binaries and `arm-none-eabi-objcopy -O ihex target/.../NAME NAME.hex` to generate hex files. Note that `arm-none-eabi-objcopy` requires the full path to the target file, where `cargo objcopy` can determine the target output directory itself.
 
 *TODO: do we always have to build with release to get reasonable binary sizes?*
 *TODO: could cargo objcopy just do these things by default?*
