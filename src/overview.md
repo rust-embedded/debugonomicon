@@ -108,7 +108,7 @@ Depending on the debugger you use, you may need to convert your compiled output 
 
 [cargo-binutils](https://github.com/rust-embedded/cargo-binutils) provides an `objcopy` command to convert between formats, to create a bin file call `cargo objcopy --bin NAME --release -- -O binary NAME.bin` or a hex file call `cargo objcopy --bin NAME --release -- -O hex NAME.hex` where `NAME` is the name of your project. 
 
-You can also use `arm-none-eabi-objcopy` 
+You can also use `arm-none-eabi-objcopy` for the same purpose, with `arm-none-eabi-objcopy -O binary target/.../NAME NAME.bin` to generate binaries and `arm-none-eabi-objcopy -O hex target/.../NAME NAME.hex` to generate hex files. Note that `arm-none-eabi-objcopy` requires the full path to the target file, where `cargo objcopy` can determine the target output directory itself.
 
 *TODO: do we always have to build with release to get reasonable binary sizes?*
 *TODO: could cargo objcopy just do these things by default?*
