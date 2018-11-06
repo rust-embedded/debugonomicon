@@ -13,6 +13,51 @@ While these tools are very powerful and gives the user complete access and juris
 
 **SHOULD WE ADD IMAGES OF COMMON HARDWARE TOGETHER WITH SOME DESCRIPTION?**
 
+## GDB
+
+Currently the only option for debugging embedded targets is a version of `gdb` specifically targetted to your processor architecture, for example, `arm-none-eabi-gdb` for bare metal arm targets. Unlike debugging on a local machine, the gdb instance and application code are typically run on different machines. gdb supports this through the use of servers and _remote targets_, whereby a programmer or debugger might implement the gdb server, and the gdb instance can connect to this to interact with the running applicaton.
+
+The invocation of GDB is typically independent of the programmer and thus server you're using, though you may have to change the remote server address when connecting and some options (such as semihosting) may or may not be available when using different programmers.
+
+### Connecting
+
+- Run `gdb ELF` where ELF is your output file to start gdb (ie. `gdb target/thumbv7em-none-eabihf/release/hello_world`)
+- Enter `target extended-remote :PORT` to connect to the gdb server (ie. `target extended-remote :4242`), note that this may be a TCP or serial port depending on the programmer
+- Get debugging!
+
+gdb will automatically execute commands from a `.gdbinit` file in the directory from which it is executed, allowing you to automate the connection to the gdb server and setting any breakpoints you might need. A useful minimal example is:
+```
+# Connect to the remote target
+target extended-remote :4242
+# Load the application
+load
+# Set a breakpoint on our entry to main
+break main
+# Start execution
+continue
+```
+
+### Useful Commands
+
+- `target extended-remote ADDR` connects to a remote target
+- `break LOCATION` or `b LOCATION` sets a breakpoint, for example `b main` sets a breakpoint on the entry to main
+- `print VARIABLE` or `p VARIABLE` prints the value of a variable at the point you are inspecting, `p\x VARIABLE` prints it in hex.
+- `delete N` or `d N` deletes a breakpoint by index
+- `continue` or `c` continues to the next breakpoint
+- `step` or `s` steps through execution line by line
+- `backtrace` or `bt` prints a backtrace from the point you are currently inspecting
+- `load` flashes the current binary to the device
+- `run` re-starts an application
+- `layout LAYOUT` switches to different views, useful options are `SRC` for source, `REGS` for registers, `ASM` for assembly
+- `quit` or `q` gets you out, though you may have to interrupt with `ctrl+c` if the application is currently running
+
+You can invoke gdb with the source layout loaded by passing the `--tui` argument in the command line, note that `tui` mode starts with the source view selected so normal control keys will scroll the source view instead of the terminal, you can move through previous and next commands with `ctrl+P` and `ctrl+N` respectively, or use `ctrl+x o` to move focus between the source and terminal views and use your arrow keys and page-up/page-down as normal.
+
+In general gdb will interpret the shortest series of characters required to uniquely identify a command as that command, for example `tar` instead of `target`. 
+
+### VSCode Integration
+
+*todo: this should be possible, works for arm + c already*
 
 ## Interfaces / Protocols
 
@@ -53,11 +98,17 @@ In the following image you can see a common communication example with SWD commu
 
 When designing a system, we should select the interface which is most convenient for the system, and there is a simple criteria to start with: Does the systems need to program and debug more than one target? If yes, JTAG is a good choice, else SWD with its minimal amount of signals is a good choice.
 
+## Debugging Applications
+
+
+
 ## Program Files
 
 Depending on the debugger you use, you may need to convert your compiled output into a different format. By default the compiler outputs a rich [ELF](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) file containing section information (and debug symbols if you have them turned on), and most tools require a very minimal binary (BIN) or hexidecmal (HEX) file, consisting only of the program instructions either in raw form or encoded in hexidecimal.
 
 [cargo-binutils](https://github.com/rust-embedded/cargo-binutils) provides an `objcopy` command to convert between formats, to create a bin file call `cargo objcopy --bin NAME --release -- -O binary NAME.bin` or a hex file call `cargo objcopy --bin NAME --release -- -O hex NAME.hex` where `NAME` is the name of your project. 
+
+You can also use `arm-none-eabi-objcopy` 
 
 *TODO: do we always have to build with release to get reasonable binary sizes?*
 *TODO: could cargo objcopy just do these things by default?*
@@ -115,11 +166,11 @@ TODO: try it out
 ### [STLink]
 
 STLink debuggers are included on most ST development boards, and are thus one of the most common programmers you will come across.
-ST provide vendor utilities for programming on Windows, and these devices are typically compatible with OpenOCD. You can also use the [exane/stlink](https://github.com/texane/stlink) package which provides a set of utilities to interact with STLink debuggers.
+ST provide vendor utilities for programming on Windows, and these devices are typically compatible with OpenOCD. You can also use the [texane/stlink](https://github.com/texane/stlink) package which provides a set of utilities to interact with STLink debuggers.
 
 #### Programming
 
-Flash with `st-flash --reset flash BINARY FLASH_ADDRESS` where BINARY is your bin file, and FLASH_ADDRESS is the flash address to write the file. You can also erase the memory wth `st-flash erase` which may sometimes be required prior to flashing. 
+Flash with `st-flash --reset flash BINARY FLASH_ADDRESS` where BINARY is your bin file, and FLASH_ADDRESS is the flash address to write the file. You can also erase the memory wth `st-flash erase` which due to a bug may sometimes be required prior to flashing. 
 
 #### Debugging
 
