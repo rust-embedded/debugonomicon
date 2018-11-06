@@ -53,6 +53,14 @@ In the following image you can see a common communication example with SWD commu
 
 When designing a system, we should select the interface which is most convenient for the system, and there is a simple criteria to start with: Does the systems need to program and debug more than one target? If yes, JTAG is a good choice, else SWD with its minimal amount of signals is a good choice.
 
+## Program Files
+
+Depending on the debugger you use, you may need to convert your compiled output into a different format. By default the compiler outputs a rich [ELF](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) file containing section information (and debug symbols if you have them turned on), and most tools require a very minimal binary (BIN) or hexidecmal (HEX) file, consisting only of the program instructions either in raw form or encoded in hexidecimal.
+
+[cargo-binutils](https://github.com/rust-embedded/cargo-binutils) provides an `objcopy` command to convert between formats, to create a bin file call `cargo objcopy --bin NAME --release -- -O binary NAME.bin` or a hex file call `cargo objcopy --bin NAME --release -- -O hex NAME.hex` where `NAME` is the name of your project. 
+
+*TODO: do we always have to build with release to get reasonable binary sizes?*
+*TODO: could cargo objcopy just do these things by default?*
 
 ## Common debugger platforms
 
@@ -63,6 +71,8 @@ However, OpenOCD is no hardware which is connected to, for example, a micro cont
 And as we talked about JTAG and SWD earlier, OpenOCD supports both of these signaling schemes through supported debug adapters which are commonly connected to the PC via USB and can be found from very cheap on for example eBay, or built into evaluation boards from micro controller manufacturers, to very expensive, special purpose, adapters.
 
 [OpenOCD]: http://openocd.org/
+
+*TODO: list workable openocd hardware*
 
 ### [Segger JLink]
 
@@ -90,7 +100,7 @@ To debug with the JLink device you run the `JLinkGDBServer` command with the spe
 
 ### [ARM DAPLink]
 
-DAPLink is a project by ARM to develop an open source cortex debug probe, this provides a set of interfaces to simplify programming and debugging and can be implemented on nearly any USB-capable hardware. DAPLink provides a set of endpoints including a CMSIS-DAP interface for debugging, a USB disk for drag-and-drop programming, and an optional serial port for communication with the target system.
+DAPLink is a project by ARM to develop an open source cortex debug probe, this provides a set of interfaces to simplify programming and debugging and can be implemented on nearly any USB-capable hardware. DAPLink provides a set of endpoints including a CMSIS-DAP interface for debugging, a USB disk for drag-and-drop programming, and an optional serial port for communication with the target system. This USB disk approach is useful for programming of devices in-field as it requires no additonal software, however is not always reliable for development use.
 
 [DAPLink]:https://os.mbed.com/docs/latest/tools/daplink.html
 
@@ -101,6 +111,19 @@ On connecting a DAPLink device to your system, a USB drive should become availab
 #### Debugging
 
 TODO: try it out
+
+### [STLink]
+
+STLink debuggers are included on most ST development boards, and are thus one of the most common programmers you will come across.
+ST provide vendor utilities for programming on Windows, and these devices are typically compatible with OpenOCD. You can also use the [exane/stlink](https://github.com/texane/stlink) package which provides a set of utilities to interact with STLink debuggers.
+
+#### Programming
+
+Flash with `st-flash --reset flash BINARY FLASH_ADDRESS` where BINARY is your bin file, and FLASH_ADDRESS is the flash address to write the file. You can also erase the memory wth `st-flash erase` which may sometimes be required prior to flashing. 
+
+#### Debugging
+
+Launch a gdb server on the default port (:4242) with `st-util` , check the help with `st-util --help` for other options.
 
 ### [Black Magic Probe]
 
