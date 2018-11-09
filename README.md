@@ -1,8 +1,8 @@
-# [Work in Progress] - New Book (temporary name)
+# [Work in Progress] - Debugonomicon
 
 ## License
 
-The New Book (this project) is distributed under the following licenses:
+The Debugonomicon (this project) is distributed under the following licenses:
 
 * The code samples and free-standing Cargo projects contained within this book
   are licensed under the terms of both the [MIT License] and the [Apache License
