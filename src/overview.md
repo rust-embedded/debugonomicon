@@ -106,7 +106,11 @@ When designing a system, we should select the interface which is most convenient
 
 Depending on the debugger you use, you may need to convert your compiled output into a different format. By default the compiler outputs a rich [ELF](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) file containing section information (and debug symbols if you have them turned on), and most tools require a very minimal binary (BIN) or hexidecmal (HEX) file, consisting only of the program instructions either in raw form or encoded in hexidecimal.
 
-[cargo-binutils](https://github.com/rust-embedded/cargo-binutils) provides an `objcopy` command to convert between formats, to create a bin file call `cargo objcopy --bin NAME --release -- -O binary NAME.bin` or a hex file call `cargo objcopy --bin NAME --release -- -O ihex NAME.hex` where `NAME` is the name of your project. 
+[cargo-binutils](https://github.com/rust-embedded/cargo-binutils) provides an `objcopy` command to convert between formats. Since `objcopy` can only operate on a a single file, as with all `cargo` commands, the concrete target needs to be specified. For embedded projects the target can either be:
+* an application binary: specify this using `--bin NAME` where `NAME` is either the name of the crate (in case there's only the implicit target with code in `src/main.rs`) or the name of the binary as defined in `Cargo.toml`
+* an example: use `--example NAME` where `NAME` is the name of the example source code in the `examples` folder
+
+To create a bin file call `cargo objcopy TARGET --release -- -O binary OUTPUT` or a hex file call `cargo objcopy TARGET --release -- -O ihex OUTPUT` where `TARGET` is the target specification as explained above and `OUTPUT` the desired output filename. 
 
 You can also use `arm-none-eabi-objcopy` for the same purpose, with `arm-none-eabi-objcopy -O binary target/.../NAME NAME.bin` to generate binaries and `arm-none-eabi-objcopy -O ihex target/.../NAME NAME.hex` to generate hex files. Note that `arm-none-eabi-objcopy` requires the full path to the target file, where `cargo objcopy` can determine the target output directory itself.
 
