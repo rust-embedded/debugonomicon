@@ -65,7 +65,7 @@ When it comes to talking to micro controllers, there are two common interfaces J
 
 ### JTAG
 
-While [JTAG] has a long history, the main feature of JTAG, which SWD does not have, is the possibility to daisy-chain multiple micro processors, FPGAs, memory chips, simply anything which supports JTAG, and access them over the same JTAG buss. The drawback is that this requires more signals than SWD, and these signals are:
+While [JTAG] has a long history, the main feature of JTAG, which SWD does not have, is the possibility to daisy-chain multiple micro processors, FPGAs, memory chips, simply anything which supports JTAG, and access them over the same JTAG bus. The drawback is that this requires more signals than SWD, and these signals are:
 
 * TDI (Test Data In)
 * TDO (Test Data Out)
