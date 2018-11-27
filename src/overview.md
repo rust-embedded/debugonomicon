@@ -172,6 +172,8 @@ TODO: try it out
 STLink debuggers are included on most ST development boards, and are thus one of the most common programmers you will come across.
 ST provide vendor utilities for programming on Windows, and these devices are typically compatible with OpenOCD. You can also use the [texane/stlink](https://github.com/texane/stlink) package which provides a set of utilities to interact with STLink debuggers.
 
+Note that while a STLink programmer might technically work for programming / debugging any SWD compatible device, you are legally prohibited from using it with devices not manufactured by ST.
+
 [STLink]: https://www.st.com/en/development-tools/st-link.html
 
 #### Programming
