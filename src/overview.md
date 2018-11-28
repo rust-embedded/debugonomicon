@@ -65,7 +65,7 @@ When it comes to talking to micro controllers, there are two common interfaces J
 
 ### JTAG
 
-While [JTAG] has a long history, the main feature of JTAG, which SWD does not have, is the possibility to daisy-chain multiple micro processors, FPGAs, memory chips, simply anything which supports JTAG, and access them over the same JTAG buss. The drawback is that this requires more signals than SWD, and these signals are:
+While [JTAG] has a long history, the main feature of JTAG, which SWD does not have, is the possibility to daisy-chain multiple micro processors, FPGAs, memory chips, simply anything which supports JTAG, and access them over the same JTAG bus. The drawback is that this requires more signals than SWD, and these signals are:
 
 * TDI (Test Data In)
 * TDO (Test Data Out)
@@ -157,11 +157,11 @@ To debug with the JLink device you run the `JLinkGDBServer` command with the spe
 
 DAPLink is a project by ARM to develop an open source cortex debug probe, this provides a set of interfaces to simplify programming and debugging and can be implemented on nearly any USB-capable hardware. DAPLink provides a set of endpoints including a CMSIS-DAP interface for debugging, a USB disk for drag-and-drop programming, and an optional serial port for communication with the target system. This USB disk approach is useful for programming of devices in-field as it requires no additonal software, however is not always reliable for development use.
 
-[DAPLink]:https://os.mbed.com/docs/latest/tools/daplink.html
+[ARM DAPLink]: https://os.mbed.com/docs/latest/tools/daplink.html
 
 #### Programming
 
-On connecting a DAPLink device to your system, a USB drive should become available. To flash, copy your binary file (*.bin) to the drive and wait for completion.
+On connecting a DAPLink device to your system, a USB drive should become available. To flash, copy your binary file (`*.bin`) to the drive and wait for completion.
 
 #### Debugging
 
@@ -171,6 +171,10 @@ TODO: try it out
 
 STLink debuggers are included on most ST development boards, and are thus one of the most common programmers you will come across.
 ST provide vendor utilities for programming on Windows, and these devices are typically compatible with OpenOCD. You can also use the [texane/stlink](https://github.com/texane/stlink) package which provides a set of utilities to interact with STLink debuggers.
+
+Note that while a STLink programmer might technically work for programming / debugging any SWD compatible device, you are legally prohibited from using it with devices not manufactured by ST.
+
+[STLink]: https://www.st.com/en/development-tools/st-link.html
 
 #### Programming
 
