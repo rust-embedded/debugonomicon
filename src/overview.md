@@ -57,7 +57,38 @@ In general gdb will interpret the shortest series of characters required to uniq
 
 ### VSCode Integration
 
-*todo: this should be possible, works for arm + c already*
+The [Native Debug] extension can be used to debug Rust code directly in the editor. To use it you will need to add a launch configuration to your `.vscode/launch.json` file. Below is an example that connects to a Seger JLink server on port 2331. If you are using OpenOCD this port is most likely 3333.
+
+```
+"configurations": [
+    {
+        "name": "JLink Remote",
+        "type": "gdb",
+        "request": "launch",
+        "cwd": "${workspaceRoot}",
+        "target": "${workspaceRoot}/target/thumbv7em-none-eabihf/debug/hello", 
+        "gdbpath" : "arm-none-eabi-gdb",
+        "autorun": [
+            "target remote :2331",
+            "set remotetimeout 5",
+            "set print asm-demangle on",
+            "monitor semihosting enable",
+            "monitor semihosting IOClient 2",
+            "load",
+            "monitor reset", // This is important for interrupts to work properly!
+        ]
+    }
+]
+```
+
+Make sure to change the `"target"` to match the destination of your output file.
+
+Before launching the debugger in VSCode you must ensure that JLinkGDBServer, OpenOCD or other debugger of choice is running on the correct port. Once running you can then set breakpoints in the code margin and hover over local or global variables to see their current value
+
+![VSCode screenshot showing breakpoints and hovering over variables to see their value](./native_debug_vscode.png)
+
+
+[Native Debug]: https://marketplace.visualstudio.com/items?itemName=webfreak.debug
 
 ## Interfaces / Protocols
 
