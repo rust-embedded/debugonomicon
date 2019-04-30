@@ -57,7 +57,7 @@ In general gdb will interpret the shortest series of characters required to uniq
 
 ### VSCode Integration
 
-The [Native Debug] extension can be used to debug Rust code directly in the editor. To use it you will need to add a launch configuration to your `.vscode/launch.json` file. Below is an example that connects to a Seger JLink server on port 2331. If you are using OpenOCD this port is most likely 3333.
+The [Native Debug] extension can be used to debug Rust code directly in the editor. To use it you will need to add a launch configuration to your `.vscode/launch.json` file. Below is an example that connects to a Segger JLink server on port 2331. If you are using OpenOCD this port is most likely 3333.
 
 ```
 "configurations": [
