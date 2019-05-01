@@ -191,7 +191,7 @@ It is also possible to pass scripts to JLinkExe with the `--CommanderScript` opt
 
 To debug with the JLink device you run the `JLinkGDBServer` command with the specified device, speed, and interface. For example, `JLinkGDBServer -device DEVICE -speed 4000 -if SWD`. You can then launch a GDB instance with the appropriate command for your target (eg. `arm-none-eabi-gdb BINARY.elf`) and connect to the GDB server using `target remote localhost:2331` (specifying the default JLinkGDBServer port).
 
-A common gotcha with JLinkGDBServer is interrupts not firing. If you experience this issue then add `monitor reset` to the end of your GDB initialization commands.
+A common gotcha with JLinkGDBServer is interrupts not firing. If you experience this issue then add `monitor reset` to the end of your GDB initialization commands. You can also enable semihosting and print to stdout with `monitor semihosting enable` and `monitor semihosting IOClient 2` respectively.
 
 ### [ARM DAPLink]
 
