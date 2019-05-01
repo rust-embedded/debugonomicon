@@ -50,10 +50,15 @@ continue
 - `run` re-starts an application
 - `layout LAYOUT` switches to different views, useful options are `SRC` for source, `REGS` for registers, `ASM` for assembly
 - `quit` or `q` gets you out, though you may have to interrupt with `ctrl+c` if the application is currently running
+- `set substitute-path SRC DST` substitutes paths that start with `SRC` with `DST`. This is useful for stepping into the rust sources as explained later.
 
 You can invoke gdb with the source layout loaded by passing the `--tui` argument in the command line, note that `tui` mode starts with the source view selected so normal control keys will scroll the source view instead of the terminal, you can move through previous and next commands with `ctrl+P` and `ctrl+N` respectively, or use `ctrl+x o` to move focus between the source and terminal views and use your arrow keys and page-up/page-down as normal.
 
 In general gdb will interpret the shortest series of characters required to uniquely identify a command as that command, for example `tar` instead of `target`. 
+
+When trying to step into the rust sources you may get an error that files with paths similar to `/rustc/e305df1846a6d985315917ae0c81b74af8b4e641/...` cannot be found. This is because the rust sources are compiled on a build server in the directory `/rustc/{commit_hash}`. To find this commit hash you can use the command `rustc -Vv`. The `set substitute-path` command can then be used to substitute this with your `{RUST_SRC_PATH}/lib/rustlib/src/rust` (`RUST_SRC_PATH` can be found from the output of `rustc --print=sysroot`). For example:
+
+```set substitute-path /rustc/e305df1846a6d985315917ae0c81b74af8b4e641 "C:/Users/username/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/lib/rustlib/src/rust"```
 
 ### VSCode Integration
 
