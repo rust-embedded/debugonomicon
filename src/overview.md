@@ -50,6 +50,7 @@ continue
 - `run` re-starts an application
 - `layout LAYOUT` switches to different views, useful options are `SRC` for source, `REGS` for registers, `ASM` for assembly
 - `quit` or `q` gets you out, though you may have to interrupt with `ctrl+c` if the application is currently running
+- `source FILENAME` runs the commands specified in `FILENAME`
 - `set substitute-path SRC DST` substitutes paths that start with `SRC` with `DST`. This is useful for stepping into the rust sources as explained later.
 
 You can invoke gdb with the source layout loaded by passing the `--tui` argument in the command line, note that `tui` mode starts with the source view selected so normal control keys will scroll the source view instead of the terminal, you can move through previous and next commands with `ctrl+P` and `ctrl+N` respectively, or use `ctrl+x o` to move focus between the source and terminal views and use your arrow keys and page-up/page-down as normal.
