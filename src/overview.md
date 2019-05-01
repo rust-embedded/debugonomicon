@@ -90,6 +90,13 @@ Before launching the debugger in VSCode you must ensure that JLinkGDBServer, Ope
 
 [Native Debug]: https://marketplace.visualstudio.com/items?itemName=webfreak.debug
 
+
+## Cargo run integration
+
+The `cargo run` command can be configured to start the debugger. To use this, simply add the following to the appropriate target in your `.cargo/config`:
+
+```runner = "arm-none-eabi-gdb -q -x debug.gdb"```
+
 ## Interfaces / Protocols
 
 When it comes to talking to micro controllers, there are two common interfaces JTAG (Joint Test Action Group) and SWD (Serial Wire Debug).
