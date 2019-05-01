@@ -75,13 +75,7 @@ The [Native Debug] extension can be used to debug Rust code directly in the edit
         "target": "${workspaceRoot}/target/thumbv7em-none-eabihf/debug/hello", 
         "gdbpath" : "arm-none-eabi-gdb",
         "autorun": [
-            "target remote :2331",
-            "set remotetimeout 5",
-            "set print asm-demangle on",
-            "monitor semihosting enable", // This is specific to JLinkGDBServer
-            "monitor semihosting IOClient 2", // This is specific to JLinkGDBServer
-            "load",
-            "monitor reset", // This is important for interrupts to work properly!
+            "source -v debug.gdb",
         ]
     }
 ]
