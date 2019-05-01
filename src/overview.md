@@ -39,43 +39,43 @@ continue
 
 ### Useful Commands
 
-- `target extended-remote ADDR` connects to a remote target
-- `break LOCATION` or `b LOCATION` sets a breakpoint, for example `b main` sets a breakpoint on the entry to main
+- `target extended-remote ADDR` connects to a remote target.
+- `break LOCATION` or `b LOCATION` sets a breakpoint, for example `b main` sets a breakpoint on the entry to main.
 - `print VARIABLE` or `p VARIABLE` prints the value of a variable at the point you are inspecting, `p\x VARIABLE` prints it in hex.
-- `delete N` or `d N` deletes a breakpoint by index
-- `continue` or `c` continues to the next breakpoint
-- `step` or `s` steps through execution line by line
-- `backtrace` or `bt` prints a backtrace from the point you are currently inspecting
-- `load` flashes the current binary to the device
-- `run` re-starts an application
-- `layout LAYOUT` switches to different views, useful options are `SRC` for source, `REGS` for registers, `ASM` for assembly
-- `quit` or `q` gets you out, though you may have to interrupt with `ctrl+c` if the application is currently running
+- `delete N` or `d N` deletes a breakpoint by index.
+- `continue` or `c` continues to the next breakpoint.
+- `step` or `s` steps through execution line by line.
+- `backtrace` or `bt` prints a backtrace from the point you are currently inspecting.
+- `load` flashes the current binary to the device.
+- `run` re-starts an application.
+- `layout LAYOUT` switches to different views, useful options are `SRC` for source, `REGS` for registers, `ASM` for assembly.
+- `quit` or `q` gets you out, though you may have to interrupt with `ctrl+c` if the application is currently running.
+- `source FILENAME` runs the commands specified in `FILENAME`.
+- `set substitute-path SRC DST` substitutes paths that start with `SRC` with `DST`. This is useful for stepping into the rust sources as explained later.
 
 You can invoke gdb with the source layout loaded by passing the `--tui` argument in the command line, note that `tui` mode starts with the source view selected so normal control keys will scroll the source view instead of the terminal, you can move through previous and next commands with `ctrl+P` and `ctrl+N` respectively, or use `ctrl+x o` to move focus between the source and terminal views and use your arrow keys and page-up/page-down as normal.
 
-In general gdb will interpret the shortest series of characters required to uniquely identify a command as that command, for example `tar` instead of `target`. 
+In general gdb will interpret the shortest series of characters required to uniquely identify a command as that command, for example `tar` instead of `target`.
+
+When trying to step into the rust sources you may get an error that files with paths similar to `/rustc/e305df1846a6d985315917ae0c81b74af8b4e641/...` cannot be found. This is because the rust sources are compiled on a build server in the directory `/rustc/{commit_hash}`. To find this commit hash you can use the command `rustc -Vv`. The `set substitute-path` command can then be used to substitute this with your `{RUST_SRC_PATH}/lib/rustlib/src/rust` (`RUST_SRC_PATH` can be found from the output of `rustc --print=sysroot`). For example:
+
+```set substitute-path /rustc/e305df1846a6d985315917ae0c81b74af8b4e641 "C:/Users/username/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/lib/rustlib/src/rust"```
 
 ### VSCode Integration
 
-The [Native Debug] extension can be used to debug Rust code directly in the editor. To use it you will need to add a launch configuration to your `.vscode/launch.json` file. Below is an example that connects to a Segger JLink server on port 2331. If you are using OpenOCD this port is most likely 3333.
+The [Native Debug] extension can be used to debug Rust code directly in the editor. To use it you will need to add a launch configuration to your `.vscode/launch.json` file. Below is an example that starts gdb and executes the commands specified in `debug.gdb`:
 
 ```
 "configurations": [
     {
-        "name": "JLink Remote",
+        "name": "Remote debug",
         "type": "gdb",
         "request": "launch",
         "cwd": "${workspaceRoot}",
         "target": "${workspaceRoot}/target/thumbv7em-none-eabihf/debug/hello", 
         "gdbpath" : "arm-none-eabi-gdb",
         "autorun": [
-            "target remote :2331",
-            "set remotetimeout 5",
-            "set print asm-demangle on",
-            "monitor semihosting enable", // This is specific to JLinkGDBServer
-            "monitor semihosting IOClient 2", // This is specific to JLinkGDBServer
-            "load",
-            "monitor reset", // This is important for interrupts to work properly!
+            "source -v debug.gdb",
         ]
     }
 ]
@@ -89,6 +89,13 @@ Before launching the debugger in VSCode you must ensure that JLinkGDBServer, Ope
 
 
 [Native Debug]: https://marketplace.visualstudio.com/items?itemName=webfreak.debug
+
+
+## Cargo run integration
+
+The `cargo run` command can be configured to start the debugger. To use this, simply add the following to the appropriate target in your `.cargo/config`:
+
+```runner = "arm-none-eabi-gdb -q -x debug.gdb"```
 
 ## Interfaces / Protocols
 
@@ -183,6 +190,8 @@ It is also possible to pass scripts to JLinkExe with the `--CommanderScript` opt
 #### Debugging
 
 To debug with the JLink device you run the `JLinkGDBServer` command with the specified device, speed, and interface. For example, `JLinkGDBServer -device DEVICE -speed 4000 -if SWD`. You can then launch a GDB instance with the appropriate command for your target (eg. `arm-none-eabi-gdb BINARY.elf`) and connect to the GDB server using `target remote localhost:2331` (specifying the default JLinkGDBServer port).
+
+A common gotcha with JLinkGDBServer is interrupts not firing. If you experience this issue then add `monitor reset` to the end of your GDB initialization commands. You can also enable semihosting and print to stdout with `monitor semihosting enable` and `monitor semihosting IOClient 2` respectively.
 
 ### [ARM DAPLink]
 
