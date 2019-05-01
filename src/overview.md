@@ -63,12 +63,12 @@ When trying to step into the rust sources you may get an error that files with p
 
 ### VSCode Integration
 
-The [Native Debug] extension can be used to debug Rust code directly in the editor. To use it you will need to add a launch configuration to your `.vscode/launch.json` file. Below is an example that connects to a Segger JLink server on port 2331. If you are using OpenOCD this port is most likely 3333.
+The [Native Debug] extension can be used to debug Rust code directly in the editor. To use it you will need to add a launch configuration to your `.vscode/launch.json` file. Below is an example that starts gdb and executes the commands specified in `debug.gdb`:
 
 ```
 "configurations": [
     {
-        "name": "JLink Remote",
+        "name": "Remote debug",
         "type": "gdb",
         "request": "launch",
         "cwd": "${workspaceRoot}",
