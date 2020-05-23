@@ -168,7 +168,7 @@ this, simply add the following to the appropriate target in your
 
 ## Interfaces / Protocols
 
-To two common protocols exist to communicate and introspect
+Two common protocols exist to communicate and introspect
 microcontrollers: JTAG (Joint Test Action Group) and SWD (Serial Wire Debug).
 
 ### JTAG
