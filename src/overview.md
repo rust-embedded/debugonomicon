@@ -36,7 +36,7 @@ the user can rewrite arbitrary memory manually if desired.
 
 ## GDB
 
-Out main option for debugging embedded targets is a version of
+Our main option for debugging embedded targets is a version of
 `gdb` specifically targetted to the processor architecture being used, for
 example, `arm-none-eabi-gdb` for bare metal arm targets. Unlike
 debugging on a local machine, the gdb instance and application code 
