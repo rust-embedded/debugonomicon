@@ -15,7 +15,7 @@ specific memory locations, etc.
 Generally, an additional hardware device is required to allow the host
 PC you are developing on to connect to the target microcontroller. These
 devices have several names such as debugger, debug probe or programmer.
-Sometimes they are refered to by a specific brand or protocol they
+Sometimes they are referred to by a specific brand or protocol they
 speak, e.g. ST-Link, JLink. These devices are typically distinct pieces
 of hardware, but in case you are using development boards, they are
 often integrated into the board.
@@ -40,10 +40,10 @@ Our main option for debugging embedded targets is a version of
 `gdb` specifically targetted to the processor architecture being used, for
 example, `arm-none-eabi-gdb` for bare metal arm targets. Unlike
 debugging on a local machine, the gdb instance and application code 
-typically run on a different devices. `gdb` supports this through the use
+typically run on different devices. `gdb` supports this through the use
 of servers and _remote targets_, whereby the debugger device 
 implements the gdb server, and the gdb instance can connect to this to
-interact with the running applicaton.
+interact with the running application.
 
 While the invocation of GDB is typically independent of the debugger and
 thus gdb server you are using, you may need to change the remote
