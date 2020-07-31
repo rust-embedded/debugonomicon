@@ -1,0 +1,531 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Overview of embedded programming and debugging - Debugonomicon</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="overview.html" class="active"><strong aria-hidden="true">1.</strong> Overview of embedded programming and debugging</a></li><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">2.</strong> Introduction to debugging with GDB</a></li><li class="chapter-item expanded "><a href="low_level_tools.html"><strong aria-hidden="true">3.</strong> Low-level tools and how to use them</a></li><li class="chapter-item expanded "><a href="high_level_tools.html"><strong aria-hidden="true">4.</strong> High level tools for assisting in programming and debugging</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Debugonomicon</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#overview-of-embedded-programming-and-debugging" id="overview-of-embedded-programming-and-debugging">Overview of embedded programming and debugging</a></h1>
+<p>This section intends to provide an overview of how to go about
+programming and debugging microcontrollers on embedded hardware. Later
+sections of this book will dive into numerous topics  from simply
+flashing a binary onto a chip to single stepping through instructions,
+inspecting memory and registers, instructing the CPU to halt execution
+under certain conditions and wait for input, look for changes in
+specific memory locations, etc.</p>
+<h2><a class="header" href="#why-programmers-and-debuggers" id="why-programmers-and-debuggers">Why programmers and debuggers</a></h2>
+<h3><a class="header" href="#what-are-debuggers-and-programmers" id="what-are-debuggers-and-programmers">What are debuggers and programmers?</a></h3>
+<p>Generally, an additional hardware device is required to allow the host
+PC you are developing on to connect to the target microcontroller. These
+devices have several names such as debugger, debug probe or programmer.
+Sometimes they are referred to by a specific brand or protocol they
+speak, e.g. ST-Link, JLink. These devices are typically distinct pieces
+of hardware, but in case you are using development boards, they are
+often integrated into the board.</p>
+<p>To add to the confusion, the software used to control the hardware
+device, in our case <code>gdb</code> is also typically referred to as 'debugger'.</p>
+<p>In contrast to creating software for a PC, the compiled program will be
+running on a different device and needs to be transferred to the target
+which needs to be instructed to execute the program. This is
+accomplished by the <em>debugger</em> device. The debugger is therefor our main
+tool to understand and debug the inner workings of the system being
+developed.  These tools are very powerful and give the user complete
+access and jurisdiction over a microcontroller, even to the point that
+the user can rewrite arbitrary memory manually if desired. </p>
+<p><strong>SHOULD WE ADD IMAGES OF COMMON HARDWARE TOGETHER WITH SOME DESCRIPTION?</strong></p>
+<h2><a class="header" href="#gdb" id="gdb">GDB</a></h2>
+<p>Our main option for debugging embedded targets is a version of
+<code>gdb</code> specifically targetted to the processor architecture being used, for
+example, <code>arm-none-eabi-gdb</code> for bare metal arm targets. Unlike
+debugging on a local machine, the gdb instance and application code 
+typically run on different devices. <code>gdb</code> supports this through the use
+of servers and <em>remote targets</em>, whereby the debugger device 
+implements the gdb server, and the gdb instance can connect to this to
+interact with the running application.</p>
+<p>While the invocation of GDB is typically independent of the debugger and
+thus gdb server you are using, you may need to change the remote
+server address when connecting and provide specific options (such as semihosting)
+which are not universally available on all debugger devices. </p>
+<h3><a class="header" href="#connecting" id="connecting">Connecting</a></h3>
+<ul>
+<li>Run <code>gdb ELF</code> where ELF is your output file to start gdb (ie. <code>gdb target/thumbv7em-none-eabihf/release/hello_world</code>)</li>
+<li>Enter <code>target extended-remote :PORT</code> to connect to the gdb server (ie.
+<code>target extended-remote :4242</code>), note that this may be a TCP or serial
+port depending on the programmer</li>
+<li>Get debugging!</li>
+</ul>
+<p>gdb will automatically execute commands from a <code>.gdbinit</code> file in the
+directory from which it is executed, allowing you to automate the
+connection to the gdb server and setting any breakpoints you might need.
+A useful minimal example is:</p>
+<pre><code>	# Connect to the remote target
+	target extended-remote :4242
+	# Load the application
+	load
+	# Set a breakpoint on our entry to main
+	break main
+	# Start execution
+	continue
+</code></pre>
+<h3><a class="header" href="#useful-commands" id="useful-commands">Useful Commands</a></h3>
+<p>In general gdb will interpret the shortest series of characters required
+to uniquely identify a command as that command, for example <code>tar</code>
+instead of <code>target</code>.</p>
+<ul>
+<li><code>target extended-remote ADDR</code> connects to a remote target.</li>
+<li><code>break LOCATION</code> or <code>b LOCATION</code> sets a breakpoint, for example <code>b main</code> sets a breakpoint on the entry to main.</li>
+<li><code>print VARIABLE</code> or <code>p VARIABLE</code> prints the value of a variable at the point you are inspecting, <code>p\x VARIABLE</code> prints it in hex.</li>
+<li><code>delete N</code> or <code>d N</code> deletes a breakpoint by index.</li>
+<li><code>continue</code> or <code>c</code> continues to the next breakpoint.</li>
+<li><code>step</code> or <code>s</code> steps through execution line by line.</li>
+<li><code>backtrace</code> or <code>bt</code> prints a backtrace from the point you are currently inspecting.</li>
+<li><code>load</code> flashes the current binary to the device.</li>
+<li><code>run</code> re-starts an application.</li>
+<li><code>layout LAYOUT</code> switches to different views, useful options are <code>SRC</code> for source, <code>REGS</code> for registers, <code>ASM</code> for assembly.</li>
+<li><code>quit</code> or <code>q</code> gets you out, though you may have to interrupt with <code>ctrl+c</code> if the application is currently running.</li>
+<li><code>source FILENAME</code> runs the commands specified in <code>FILENAME</code>.</li>
+<li><code>set substitute-path SRC DST</code> substitutes paths that start with <code>SRC</code> with <code>DST</code>. This is useful for stepping into the rust sources as explained later.</li>
+</ul>
+<p>You can invoke gdb with the source layout loaded by passing the <code>--tui</code>
+argument in the command line. Note that <code>tui</code> mode starts with the
+source view selected so normal control keys will scroll the source view
+instead of the terminal, you can move through previous and next commands
+with <code>ctrl+P</code> and <code>ctrl+N</code> respectively, or use <code>ctrl+x o</code> to move focus
+between the source and terminal views and use your arrow keys and
+page-up/page-down as normal.</p>
+<p>You may encounter errors stepping through code concerning sources that
+cannot be found.  In case the source paths contains hashes like:
+<code>/rustc/e305df1846a6d985315917ae0c81b74af8b4e641/...</code> the cause may be
+rust sources which were compiled on a build server in the directory
+<code>/rustc/{commit_hash}</code>. To find this commit hash you can use the command
+<code>rustc -Vv</code>. The <code>set substitute-path</code> command can then be used to
+substitute this with your <code>{RUST_SRC_PATH}/lib/rustlib/src/rust</code>
+(<code>RUST_SRC_PATH</code> can be found from the output of <code>rustc --print=sysroot</code>). For example:</p>
+<p><code>set substitute-path /rustc/e305df1846a6d985315917ae0c81b74af8b4e641 &quot;C:/Users/username/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/lib/rustlib/src/rust&quot;</code></p>
+<h3><a class="header" href="#vscode-integration" id="vscode-integration">VSCode Integration</a></h3>
+<p>The <a href="https://marketplace.visualstudio.com/items?itemName=webfreak.debug">Native Debug</a> extension can be used to debug Rust code directly in
+the editor. To use it you will need to add a launch configuration to
+your <code>.vscode/launch.json</code> file. Below is an example that starts gdb and
+executes the commands specified in <code>debug.gdb</code>:</p>
+<pre><code>&quot;configurations&quot;: [
+    {
+        &quot;name&quot;: &quot;Remote debug&quot;,
+        &quot;type&quot;: &quot;gdb&quot;,
+        &quot;request&quot;: &quot;launch&quot;,
+        &quot;cwd&quot;: &quot;${workspaceRoot}&quot;,
+        &quot;target&quot;: &quot;${workspaceRoot}/target/thumbv7em-none-eabihf/debug/hello&quot;, 
+        &quot;gdbpath&quot; : &quot;arm-none-eabi-gdb&quot;,
+        &quot;autorun&quot;: [
+            &quot;source -v debug.gdb&quot;,
+        ]
+    }
+]
+</code></pre>
+<p>Make sure to change the <code>&quot;target&quot;</code> to match the destination of your
+output file.</p>
+<p>Before launching the debugger in VSCode you must ensure that
+<code>JLinkGDBServer</code>, <code>OpenOCD</code> or other debugger of choice is running on the
+correct port. Once running you can then set breakpoints in the code
+margin and hover over local or global variables to see their current
+value</p>
+<p><img src="./native_debug_vscode.png" alt="VSCode screenshot showing breakpoints and hovering over variables to see their value" /></p>
+<h2><a class="header" href="#cargo-run-integration" id="cargo-run-integration">Cargo run integration</a></h2>
+<p>The <code>cargo run</code> command can be configured to start the debugger. To use
+this, simply add the following to the appropriate target in your
+<code>.cargo/config</code>:</p>
+<p><code>runner = &quot;arm-none-eabi-gdb -q -x debug.gdb&quot;</code></p>
+<h2><a class="header" href="#interfaces--protocols" id="interfaces--protocols">Interfaces / Protocols</a></h2>
+<p>Two common protocols exist to communicate and introspect
+microcontrollers: JTAG (Joint Test Action Group) and SWD (Serial Wire Debug).</p>
+<h3><a class="header" href="#jtag" id="jtag">JTAG</a></h3>
+<p><a href="https://en.wikipedia.org/wiki/JTAG">JTAG</a> has a long history, and was originally intended to daisy-chain multiple micro
+processors, FPGAs, memory chips, simply anything which supports JTAG,
+and access them over the same JTAG bus. To enable this, it requires more
+signals than SWD:</p>
+<ul>
+<li>TDI (Test Data In)</li>
+<li>TDO (Test Data Out)</li>
+<li>TCK (Test Clock)</li>
+<li>TMS (Test Mode Select)</li>
+<li>TRST (Test Reset) which is optional</li>
+</ul>
+<p>(a variant of JTAG called cJTAG, c for compact exists that uses 2
+signals)</p>
+<p>The following image illustrates a common communication example with a JTAG bus with multiple devices:</p>
+<p><img src="./JTAG_example.svg" alt="Alt text" /></p>
+<h3><a class="header" href="#swd" id="swd">SWD</a></h3>
+<p><a href="https://en.wikipedia.org/wiki/JTAG#Serial_Wire_Debug">SWD</a> is quite similar to JTAG, as it uses the same protocol but it is
+limited to two electrical signals and cannot address multiple targets on
+a single connection. SWD is also a proprietary ARM technology.  While
+JTAG is vastly more versatile, SWD's strength is in its simplicity as
+many systems only have one microcontroller to program. In these cases
+the reduction of signals while still having full debugability is a major
+win. In SWD the following signals are available:</p>
+<ul>
+<li>SWDIO (Serial Wire Debug Input / Output)</li>
+<li>SWCLK (Serial Wire Clock)</li>
+</ul>
+<p>The following image illustrates a common communication example with SWD
+communicating with a single microcontroller:</p>
+<p><img src="./SWD_example.svg" alt="Alt text" /></p>
+<h3><a class="header" href="#which-one-to-use" id="which-one-to-use">Which one to use?</a></h3>
+<p>When designing a system, we should select the interface which is most
+convenient for the system, and there are simple criteria to consider:</p>
+<ul>
+<li>Does the target support SWD?</li>
+<li>Does the system have more than a single component which needs to be
+programmed or debugged? </li>
+<li>How valuable is board space and is the larger area required for JTAG
+acceptable?</li>
+<li>What does the component manufacturer recommend?</li>
+</ul>
+<h2><a class="header" href="#debugging-applications" id="debugging-applications">Debugging Applications</a></h2>
+<h2><a class="header" href="#program-files" id="program-files">Program Files</a></h2>
+<p>Depending on the debugger you use, you may need to convert your compiled
+output to a different format. By default the compiler outputs a rich
+<a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a> file
+containing section information (and debug symbols if you have them
+turned on). This information is useful to debug software, i.e. gbd, but
+most microcontrollers require a very minimal binary (BIN) or
+hexadecimal (HEX) file, consisting of only the program instructions.</p>
+<p><a href="https://github.com/rust-embedded/cargo-binutils">cargo-binutils</a>
+provides an <code>objcopy</code> command to convert between formats. Since
+<code>objcopy</code> can only operate on a single file, as with all <code>cargo</code>
+commands, the concrete target needs to be specified. For embedded
+projects the target can either be:</p>
+<ul>
+<li>
+<p>an application binary: specify this using <code>--bin NAME</code> where <code>NAME</code> is
+either the name of the crate (in this case the implicit target
+with code in <code>src/main.rs</code>) or the name of the binary as defined in
+<code>Cargo.toml</code></p>
+</li>
+<li>
+<p>an example: use <code>--example NAME</code> where <code>NAME</code> is the name of the
+example source code in the <code>examples</code> folder</p>
+</li>
+</ul>
+<p>To create a bin file execute:</p>
+<pre><code>	$ cargo objcopy TARGET --release -- -O binary OUTPUT 
+</code></pre>
+<p>or for a hex file: </p>
+<pre><code>	cargo objcopy TARGET --release -- -O ihex OUTPUT
+</code></pre>
+<p>where <code>TARGET</code> is the target specification as explained above
+and <code>OUTPUT</code> the desired output filename. </p>
+<p>This is equivalent to using <code>arm-none-eabi-objcopy</code> for the same
+purpose, but <code>cargo objcopy</code> is aware of the context can determine the
+target output directory.</p>
+<p><em>TODO: do we always have to build with release to get reasonable binary sizes?</em>
+<em>TODO: could cargo objcopy just do these things by default?</em></p>
+<h2><a class="header" href="#common-debugger-platforms" id="common-debugger-platforms">Common debugger platforms</a></h2>
+<h3><a class="header" href="#openocd" id="openocd">OpenOCD</a></h3>
+<p><a href="http://openocd.org/">OpenOCD</a> (Open On-Chip Debugger) is a very popular piece of software
+which provides an interface for a debugger software, such as GDB, to
+connect to in order to provide in-system programming and boundary-scan
+testing for embedded devices.</p>
+<p>However, OpenOCD only provides the gbdserver for the debug software to
+connect to and requires a debug adapter to connect to the target
+microcontroller.</p>
+<p>OpenOCD supports both JTAG and SWD signaling schemes throughsupported debug adapters. These are
+typically connected to the PC via USB. These devices range from very cheap
+eBay reseller devices, are built into evaluation boards from microcontroller
+manufacturers, to very expensive, special purpose, adapters.</p>
+<p><em>TODO: list workable openocd hardware</em></p>
+<h3><a class="header" href="#a-hrefhttpswwwseggercomproductsdebug-probesj-linksegger-jlinka" id="a-hrefhttpswwwseggercomproductsdebug-probesj-linksegger-jlinka"><a href="https://www.segger.com/products/debug-probes/j-link/">Segger JLink</a></a></h3>
+<p>Segger provide a JLink family of programmers and debuggers commonly used
+in industry. JLink devices require closed source binaries to use,
+however these are available for common platforms
+<a href="https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack">here</a>.
+JLink probes are typically compatible with both SWD and JTAG based
+debugging.</p>
+<p>Flashing is managed using <code>JLinkExe</code> and a custom gdb server is provided
+in <code>JLinkGdbServer</code>, the <code>JLinkExe</code> commands are documented
+<a href="https://wiki.segger.com/index.php?title=J-Link_Commander">here</a>, note
+that on windows this is called <code>JLink.exe</code>.</p>
+<h4><a class="header" href="#programming" id="programming">Programming</a></h4>
+<ol>
+<li>Run the <code>JLinkExe --speed 4000 --if SWD</code> command to connect to the debugger in SWD mode</li>
+<li>Select your device with <code>device DEVICE</code> eg. <code>device EFM32G210</code></li>
+<li>Halt the processor with <code>halt</code> or <code>h</code></li>
+<li>Load your binary with <code>loadbin BINARY, FLASH_ADDRESS</code> eg. <code>loadbin test.bin 0x0000</code></li>
+<li>Verify your binary flashed correctly with <code>verifybin BINARY, FLASH_ADDRESS</code> eg. <code>loadbin test.bin 0x0000</code></li>
+<li>Reset the processor with <code>reset</code> or <code>r</code></li>
+<li>Quit the JLinkExe gui with <code>q</code></li>
+</ol>
+<p>It is also possible to pass scripts to JLinkExe with the
+<code>--CommanderScript</code> option, allowing automation of commands.</p>
+<h4><a class="header" href="#debugging" id="debugging">Debugging</a></h4>
+<p>To debug with the JLink device you run the <code>JLinkGDBServer</code> command with
+the specified device, speed, and interface. For example, <code>JLinkGDBServer -device DEVICE -speed 4000 -if SWD</code>. You can then launch a GDB instance
+with the appropriate command for your target (eg. <code>arm-none-eabi-gdb BINARY.elf</code>) and connect to the GDB server using <code>target remote localhost:2331</code> (specifying the default JLinkGDBServer port).</p>
+<p>A common gotcha with JLinkGDBServer is interrupts not firing. If you
+experience this issue then add <code>monitor reset</code> to the end of your GDB
+initialization commands. You can also enable semihosting and print to
+stdout with <code>monitor semihosting enable</code> and <code>monitor semihosting IOClient 2</code> respectively.</p>
+<h3><a class="header" href="#a-hrefhttpsosmbedcomdocslatesttoolsdaplinkhtmlarm-daplinka" id="a-hrefhttpsosmbedcomdocslatesttoolsdaplinkhtmlarm-daplinka"><a href="https://os.mbed.com/docs/latest/tools/daplink.html">ARM DAPLink</a></a></h3>
+<p>DAPLink is a project by ARM to develop an open source cortex debug
+probe, this provides a set of interfaces to simplify programming and
+debugging and can be implemented on nearly any USB-capable hardware.
+DAPLink provides a set of endpoints including a CMSIS-DAP interface for
+debugging, a USB disk for drag-and-drop programming, and an optional
+serial port for communication with the target system. The USB mass
+storage approach, in which the target device appears as a thumbdrive in
+the host operating system is useful for programming of devices in-field
+as it requires no additonal software, however is not always reliable for
+development use.</p>
+<h4><a class="header" href="#programming-1" id="programming-1">Programming</a></h4>
+<p>After connecting a DAPLink device to your system, a USB drive should
+appear. To flash, copy your binary file (<code>*.bin</code>) to the drive and
+wait for completion.</p>
+<h4><a class="header" href="#debugging-1" id="debugging-1">Debugging</a></h4>
+<p>TODO: try it out</p>
+<h3><a class="header" href="#a-hrefhttpswwwstcomendevelopment-toolsst-linkhtmlstlinka" id="a-hrefhttpswwwstcomendevelopment-toolsst-linkhtmlstlinka"><a href="https://www.st.com/en/development-tools/st-link.html">STLink</a></a></h3>
+<p>STLink debuggers are integrated on most ST development boards, and are
+thus one of the most common programmers you will come across.</p>
+<p>ST provides vendor utilities for programming on Windows, and these
+devices are typically compatible with OpenOCD. You can also use the
+<a href="https://github.com/texane/stlink">texane/stlink</a> package which provides
+a set of utilities to interact with STLink debuggers.</p>
+<p>Note that while a STLink programmer might technically work for
+programming / debugging any SWD compatible device, you are legally
+prohibited from using it with devices not manufactured by ST.</p>
+<h4><a class="header" href="#programming-2" id="programming-2">Programming</a></h4>
+<p>Flash with <code>st-flash --reset flash BINARY FLASH_ADDRESS</code> where BINARY is
+your bin file, and FLASH_ADDRESS is the flash address to write the file.
+You can also erase the memory wth <code>st-flash erase</code> which due to a bug
+may sometimes be required prior to flashing. </p>
+<h4><a class="header" href="#debugging-2" id="debugging-2">Debugging</a></h4>
+<p>Launch a gdb server on the default port (:4242) with <code>st-util</code> , check the help with <code>st-util --help</code> for other options.</p>
+<h3><a class="header" href="#a-hrefhttpsgithubcomblacksphereblackmagicwikiblack-magic-probea" id="a-hrefhttpsgithubcomblacksphereblackmagicwikiblack-magic-probea"><a href="https://github.com/blacksphere/blackmagic/wiki">Black Magic Probe</a></a></h3>
+<p>The BMP (Black Magic Probe) is different from the other devices listed
+here in that it does not require OpenOCD or other intermediary host
+software to provide a gbd-server. Instead the device itself implements a GDB server
+over serial port connection. In a
+sense, it is OpenOCD combined with a debug adapter in the same dongle.
+The BMP is open hardware and runs open source software inside it as
+well, plus using GDB with the BMP very similar to OpenOCD. BMP is based
+on a common STM chip and the firmware can easily be ported to other
+boards. </p>
+<h3><a class="header" href="#debugger-used-in-this-book" id="debugger-used-in-this-book">Debugger used in this book</a></h3>
+<p>This book uses the STM32F3Discovery platform for all examples, just like
+the <a href="https://docs.rust-embedded.org/discovery/">Discovery Book</a> and <a href="https://rust-embedded.github.io/book/">The Embedded Rust Book</a>. This eval board
+integrates a STLink v2 debug adapter with which we will communicate
+using OpenOCD.</p>
+<h2><a class="header" href="#debugging-tools" id="debugging-tools">Debugging Tools</a></h2>
+<p>There are currently two main debugging softwares on the PC side, the Gnu
+Debugger (GDB) and LLVM's Debugger (LLDB). At the time of
+writing this book, LLDB does not yet have the required support to debug the
+targets we are using, and we will be using GDB in this
+book.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+                            <a rel="next" href="introduction.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+                    <a rel="next" href="introduction.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
