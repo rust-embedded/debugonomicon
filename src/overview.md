@@ -234,7 +234,7 @@ Depending on the debugger you use, you may need to convert your compiled
 output to a different format. By default the compiler outputs a rich
 [ELF](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) file
 containing section information (and debug symbols if you have them
-turned on). This information is useful to debug software, i.e. gbd, but
+turned on). This information is useful to debug software, i.e. gdb, but
 most microcontrollers require a very minimal binary (BIN) or
 hexadecimal (HEX) file, consisting of only the program instructions.
 
@@ -283,7 +283,7 @@ which provides an interface for a debugger software, such as GDB, to
 connect to in order to provide in-system programming and boundary-scan
 testing for embedded devices.
 
-However, OpenOCD only provides the gbdserver for the debug software to
+However, OpenOCD only provides the gdbserver for the debug software to
 connect to and requires a debug adapter to connect to the target
 microcontroller.
 
@@ -405,7 +405,7 @@ Launch a gdb server on the default port (:4242) with `st-util` , check the help 
 
 The BMP (Black Magic Probe) is different from the other devices listed
 here in that it does not require OpenOCD or other intermediary host
-software to provide a gbd-server. Instead the device itself implements a GDB server
+software to provide a gdbserver. Instead the device itself implements a GDB server
 over serial port connection. In a
 sense, it is OpenOCD combined with a debug adapter in the same dongle.
 The BMP is open hardware and runs open source software inside it as
