@@ -401,19 +401,20 @@ may sometimes be required prior to flashing.
 Launch a gdb server on the default port (:4242) with `st-util` , check the help with `st-util --help` for other options.
 
 
-### [Black Magic Probe]
+### [Black Magic Debug]/[Black Magic Probe]
 
-The BMP (Black Magic Probe) is different from the other devices listed
+BMP (Black Magic Probe) is different from the other devices listed
 here in that it does not require OpenOCD or other intermediary host
-software to provide a gdbserver. Instead the device itself implements a GDB server
-over serial port connection. In a
+software to provide a gdbserver. Instead the device itself implements
+a GDB server over serial port connection. In a
 sense, it is OpenOCD combined with a debug adapter in the same dongle.
-The BMP is open hardware and runs open source software inside it as
+BMP is open hardware and runs open source software inside it as
 well, plus using GDB with the BMP very similar to OpenOCD. BMP is based
 on a common STM chip and the firmware can easily be ported to other
 boards. 
 
-[Black Magic Probe]: https://github.com/blacksphere/blackmagic/wiki
+[Black Magic Debug]: https://black-magic.org/
+[Black Magic Probe]: https://1bitsquared.com/collections/embedded-hardware/products/black-magic-probe
 
 
 ### Debugger used in this book
